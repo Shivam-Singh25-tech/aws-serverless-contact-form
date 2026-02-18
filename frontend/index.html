@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Futuristic Contact Portal</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .glass-card {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 40px;
+      width: 90%;
+      max-width: 500px;
+      animation: fadeIn 1s ease-out;
+    }
+
+    .glass-card h2 {
+      text-align: center;
+      color: #ffffff;
+      margin-bottom: 30px;
+      letter-spacing: 1px;
+    }
+
+    .form-group {
+      position: relative;
+      margin-bottom: 25px;
+    }
+
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 12px;
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 12px;
+      color: #ffffff;
+      font-size: 16px;
+      outline: none;
+      transition: all 0.3s ease-in-out;
+    }
+
+    .form-group label {
+      position: absolute;
+      top: 12px;
+      left: 14px;
+      color: rgba(255, 255, 255, 0.7);
+      pointer-events: none;
+      transition: 0.3s ease-in-out;
+    }
+
+    .form-group input:focus + label,
+    .form-group input:not(:placeholder-shown) + label,
+    .form-group textarea:focus + label,
+    .form-group textarea:not(:placeholder-shown) + label {
+      top: -10px;
+      left: 10px;
+      font-size: 13px;
+      color: #00ffe5;
+      background-color: #2c5364;
+      padding: 0 5px;
+      border-radius: 5px;
+    }
+
+    .glass-card button {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(135deg, #00ffe5, #0099ff);
+      border: none;
+      border-radius: 12px;
+      color: #000;
+      font-weight: bold;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .glass-card button:hover {
+      background: linear-gradient(135deg, #0099ff, #00ffe5);
+    }
+
+    @keyframes fadeIn {
+      from {
+        transform: translateY(40px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    footer {
+      position: absolute;
+      bottom: 10px;
+      width: 100%;
+      text-align: center;
+      color: #aaa;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="glass-card">
+    <h2>🌐 Multicloud DevOps Registration</h2>
+    <form action="/dev" method="post">
+      <div class="form-group">
+        <input type="text" id="fname" name="fname" required placeholder=" " />
+        <label for="fname">First Name</label>
+      </div>
+
+      <div class="form-group">
+        <input type="text" id="lname" name="lname" required placeholder=" " />
+        <label for="lname">Last Name</label>
+      </div>
+
+      <div class="form-group">
+        <input type="email" id="email" name="email" required placeholder=" " />
+        <label for="email">Email</label>
+      </div>
+
+      <div class="form-group">
+        <textarea id="message" name="message" rows="4" required placeholder=" "></textarea>
+        <label for="message">Your Message</label>
+      </div>
+
+      <button type="submit">Submit 🚀</button>
+    </form>
+  </div>
+
+  <footer>&copy; 2025 Yaswanth Reddy Arumulla — DevOps Innovation</footer>
+
+</body>
+</html>
