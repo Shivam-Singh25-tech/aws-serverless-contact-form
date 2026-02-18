@@ -1,21 +1,18 @@
 # Step-by-Step Guide: API Gateway + Lambda + DynamoDB Integration
 
-This project demonstrates a fully serverless contact form application built using:
+serverless web form using API Gateway → Lambda → DynamoDB
 
-- Amazon API Gateway
-- AWS Lambda (Python)
-- Amazon DynamoDB
+This guide will walk you through building a serverless web application using Amazon API Gateway, AWS Lambda, and Amazon DynamoDB.
 
-The architecture allows users to submit a form from the frontend, which is processed by Lambda and stored in DynamoDB.
 
----
 
-## Architecture Diagram
 
-<p align="center">
-  <img src="images/architecture.png" width="600"/>
-</p>
+<table style="width: 100%; margin-bottom: 20px;">
+  <tr>
+    <td align="center" style="padding: 10px; background-color: #e9f7f5; border-radius: 8px;">
+      <img src="https://github.com/arumullayaswanth/AWS-Lambda-boto3-automation-project/blob/32662ad798434062570eca8eb9c9408f2f0a108c/6.lambda-dynamodb-api-gateway/images.png" width="1000%" style="border: 2px solid #ddd; border-radius: 10px;">
+      <br><b> Lambda-DynamoDB API Integration  architecture Project </b>
+    </td>
+  </tr>
+</table>
 
----
-
-## Project Structure
