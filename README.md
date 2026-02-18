@@ -13,7 +13,7 @@ The architecture allows users to submit a form from the frontend, which is proce
 ## Architecture Diagram
 
 <p align="center">
-  <img src="images/images.png" width="600"/>
+  <img src="images/architecture.png" width="600"/>
 </p>
 
 ---
