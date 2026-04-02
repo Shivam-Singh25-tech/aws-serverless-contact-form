@@ -47,7 +47,7 @@ def page_router(httpmethod, querystring, formbody):
 def insert_record(formbody):
     formbody = formbody.replace("=", "' : '")
     formbody = formbody.replace("&", "', '")
-    formbody = "INSERT INTO yaswanth value {'" + formbody + "'}"   # Replace with DynamoDB Table name(My table name is yaswanth)
+    formbody = "INSERT INTO shivam singh {'" + formbody + "'}"   # Replace with DynamoDB Table name(My table name is shivam singh)
 
     client = boto3.client('dynamodb')
     response = client.execute_statement(Statement=formbody)
