@@ -2,8 +2,7 @@
 
 serverless web form using API Gateway → Lambda → DynamoDB
 
-This guide will walk you through building a serverless web application using Amazon API Gateway, AWS Lambda, and Amazon DynamoDB.
-
+This project explains the integration of API Gateway,Lambda,and DynamoDB to build a serverless web application
 
 
 
