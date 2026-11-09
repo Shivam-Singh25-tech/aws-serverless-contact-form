@@ -1,154 +1,581 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Futuristic Contact Portal</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Record Created Successfully | AWS DynamoDB</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
   <style>
+    :root {
+      --bg-dark: #0a0d14;
+      --card-bg: rgba(18, 24, 38, 0.78);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --card-border-hover: rgba(16, 185, 129, 0.35);
+      --primary: #6366f1;
+      --accent-cyan: #06b6d4;
+      --accent-aws: #ff9900;
+      --success: #10b981;
+      --success-glow: rgba(16, 185, 129, 0.35);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+
     * {
       box-sizing: border-box;
-      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
     }
 
     body {
-      margin: 0;
-      padding: 0;
-      height: 100vh;
-      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      background-color: var(--bg-dark);
+      background-image:
+        radial-gradient(at 0% 0%, rgba(16, 185, 129, 0.15) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(99, 102, 241, 0.12) 0px, transparent 50%),
+        radial-gradient(at 50% 50%, rgba(6, 182, 212, 0.05) 0px, transparent 60%);
+      background-attachment: fixed;
+      color: var(--text-main);
+      min-height: 100vh;
       display: flex;
-      justify-content: center;
+      flex-direction: column;
       align-items: center;
+      justify-content: center;
+      padding: 30px 20px;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Floating background orbs */
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.6;
+      animation: float 14s ease-in-out infinite alternate;
+    }
+
+    .orb-1 {
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(16, 185, 129, 0.22) 0%, transparent 70%);
+      top: -100px;
+      left: -100px;
+    }
+
+    .orb-2 {
+      width: 420px;
+      height: 420px;
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.18) 0%, transparent 70%);
+      bottom: -120px;
+      right: -100px;
+      animation-delay: -7s;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translate(0, 0) scale(1);
+      }
+
+      50% {
+        transform: translate(35px, 25px) scale(1.08);
+      }
+
+      100% {
+        transform: translate(-25px, 45px) scale(0.95);
+      }
+    }
+
+    /* Wrapper */
+    .page-wrapper {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 540px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      animation: zoomIn 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes zoomIn {
+      from {
+        opacity: 0;
+        transform: scale(0.92) translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+
+    /* Badge */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.25);
+      border-radius: 100px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: #34d399;
+      backdrop-filter: blur(12px);
+      margin-bottom: 20px;
+      box-shadow: 0 4px 15px rgba(16, 185, 129, 0.15);
+    }
+
+    .badge-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: var(--success);
+      box-shadow: 0 0 10px var(--success);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+
+      50% {
+        transform: scale(1.3);
+        opacity: 0.6;
+      }
+    }
+
+    /* Card */
+    .success-card {
+      width: 100%;
+      background: var(--card-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      padding: 44px 32px;
+      text-align: center;
+      box-shadow:
+        0 25px 50px -12px rgba(0, 0, 0, 0.6),
+        0 0 0 1px rgba(255, 255, 255, 0.05),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.35s ease, box-shadow 0.35s ease;
+    }
+
+    .success-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #10b981, #06b6d4, #6366f1);
+    }
+
+    .success-card:hover {
+      border-color: var(--card-border-hover);
+      box-shadow:
+        0 30px 60px -15px rgba(0, 0, 0, 0.7),
+        0 0 30px rgba(16, 185, 129, 0.18),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+      transform: translateY(-3px);
+    }
+
+    /* Animated Checkmark Icon */
+    .check-container {
+      width: 90px;
+      height: 90px;
+      margin: 0 auto 26px auto;
+      border-radius: 50%;
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      box-shadow: 0 0 35px var(--success-glow);
+    }
+
+    .check-container::before {
+      content: '';
+      position: absolute;
+      inset: -6px;
+      border-radius: 50%;
+      border: 2px dashed rgba(16, 185, 129, 0.35);
+      animation: rotateRing 20s linear infinite;
+    }
+
+    @keyframes rotateRing {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .checkmark-svg {
+      width: 48px;
+      height: 48px;
+    }
+
+    .checkmark-circle {
+      stroke: #10b981;
+      stroke-width: 3;
+      stroke-dasharray: 166;
+      stroke-dashoffset: 166;
+      stroke-miterlimit: 10;
+      fill: none;
+      animation: strokeCircle 0.8s cubic-bezier(0.65, 0, 0.45, 1) 0.2s forwards;
+    }
+
+    .checkmark-check {
+      transform-origin: 50% 50%;
+      stroke: #ffffff;
+      stroke-width: 3.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 48;
+      stroke-dashoffset: 48;
+      fill: none;
+      animation: strokeCheck 0.5s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+    }
+
+    @keyframes strokeCircle {
+      to {
+        stroke-dashoffset: 0;
+      }
+    }
+
+    @keyframes strokeCheck {
+      to {
+        stroke-dashoffset: 0;
+      }
+    }
+
+    /* Titles */
+    h1.heading {
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 12px;
+      background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* Original target element preserved with ID for full compatibility */
+    #thankYouMessage {
+      font-size: 15px;
+      font-weight: 500;
+      color: #cbd5e1;
+      line-height: 1.6;
+      margin-bottom: 28px;
+      padding: 16px 20px;
+      background: rgba(15, 23, 42, 0.55);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 14px;
+    }
+
+    /* Pipeline Architecture Card */
+    .pipeline-summary {
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 14px;
+      padding: 18px 20px;
+      margin-bottom: 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      text-align: left;
+    }
+
+    .pipeline-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+    }
+
+    .pipeline-label {
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .pipeline-val {
+      font-weight: 600;
+      color: #f1f5f9;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 12px;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 3px 8px;
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    /* Action Buttons */
+    .button-group {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      width: 100%;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      padding: 14px 24px;
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: #ffffff;
+      text-decoration: none;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 700;
+      box-shadow: 0 10px 25px -5px rgba(16, 185, 129, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
       overflow: hidden;
     }
 
-    .glass-card {
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 20px;
-      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      padding: 40px;
-      width: 90%;
-      max-width: 500px;
-      animation: fadeIn 1s ease-out;
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 30px -4px rgba(16, 185, 129, 0.55), 0 0 20px rgba(6, 182, 212, 0.3);
     }
 
-    .glass-card h2 {
-      text-align: center;
-      color: #ffffff;
-      margin-bottom: 30px;
-      letter-spacing: 1px;
+    .btn-primary:active {
+      transform: translateY(1px);
     }
 
-    .form-group {
-      position: relative;
-      margin-bottom: 25px;
-    }
-
-    .form-group input,
-    .form-group textarea {
-      width: 100%;
-      padding: 12px;
-      background: transparent;
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      border-radius: 12px;
-      color: #ffffff;
-      font-size: 16px;
-      outline: none;
-      transition: all 0.3s ease-in-out;
-    }
-
-    .form-group label {
-      position: absolute;
-      top: 12px;
-      left: 14px;
-      color: rgba(255, 255, 255, 0.7);
-      pointer-events: none;
-      transition: 0.3s ease-in-out;
-    }
-
-    .form-group input:focus + label,
-    .form-group input:not(:placeholder-shown) + label,
-    .form-group textarea:focus + label,
-    .form-group textarea:not(:placeholder-shown) + label {
-      top: -10px;
-      left: 10px;
-      font-size: 13px;
-      color: #00ffe5;
-      background-color: #2c5364;
-      padding: 0 5px;
-      border-radius: 5px;
-    }
-
-    .glass-card button {
-      width: 100%;
-      padding: 12px;
-      background: linear-gradient(135deg, #00ffe5, #0099ff);
-      border: none;
-      border-radius: 12px;
-      color: #000;
-      font-weight: bold;
-      font-size: 16px;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-
-    .glass-card button:hover {
-      background: linear-gradient(135deg, #0099ff, #00ffe5);
-    }
-
-    @keyframes fadeIn {
-      from {
-        transform: translateY(40px);
-        opacity: 0;
-      }
-      to {
-        transform: translateY(0);
-        opacity: 1;
-      }
-    }
-
+    /* Footer */
     footer {
-      position: absolute;
-      bottom: 10px;
-      width: 100%;
+      margin-top: 24px;
+      font-size: 13px;
+      color: var(--text-muted);
       text-align: center;
-      color: #aaa;
-      font-size: 14px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      z-index: 1;
+    }
+
+    .brand-link {
+      font-weight: 700;
+      color: #cbd5e1;
+      letter-spacing: 0.3px;
+    }
+
+    .badge-aws {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      color: #94a3b8;
+    }
+
+    /* Confetti particle canvas */
+    #confettiCanvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 2;
     }
   </style>
 </head>
+
 <body>
 
-  <div class="glass-card">
-    <h2>🌐 Multicloud DevOps Registration</h2>
-    <form action="/dev" method="post">
-      <div class="form-group">
-        <input type="text" id="fname" name="fname" required placeholder=" " />
-        <label for="fname">First Name</label>
+  <canvas id="confettiCanvas"></canvas>
+
+  <!-- Ambient background orbs -->
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+
+  <div class="page-wrapper">
+    <div class="badge">
+      <span class="badge-dot"></span>
+      200 OK • Record Inserted
+    </div>
+
+    <div class="success-card">
+      <!-- Animated SVG checkmark -->
+      <div class="check-container">
+        <svg class="checkmark-svg" viewBox="0 0 52 52">
+          <circle class="checkmark-circle" cx="26" cy="26" r="24" />
+          <path class="checkmark-check" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
+        </svg>
       </div>
 
-      <div class="form-group">
-        <input type="text" id="lname" name="lname" required placeholder=" " />
-        <label for="lname">Last Name</label>
+      <h1 class="heading">Submission Successful!</h1>
+
+      <!-- Preserved ID & text as in original success.html -->
+      <h2 id="thankYouMessage">Thanks for trying this Project. you can verify data in DynamoDB Table.</h2>
+
+      <!-- Pipeline Telemetry Overview -->
+      <div class="pipeline-summary">
+        <div class="pipeline-row">
+          <span class="pipeline-label">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ff9900" stroke-width="2">
+              <path
+                d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z">
+              </path>
+            </svg>
+            Target Database
+          </span>
+          <span class="pipeline-val">Amazon DynamoDB</span>
+        </div>
+        <div class="pipeline-row">
+          <span class="pipeline-label">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6366f1" stroke-width="2">
+              <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
+              <rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect>
+              <line x1="6" y1="6" x2="6.01" y2="6"></line>
+              <line x1="6" y1="18" x2="6.01" y2="18"></line>
+            </svg>
+            DynamoDB Table
+          </span>
+          <span class="pipeline-val">riteclicktable</span>
+        </div>
+        <div class="pipeline-row">
+          <span class="pipeline-label">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            Transaction Status
+          </span>
+          <span class="pipeline-val" style="color: #34d399;">COMMITTED</span>
+        </div>
       </div>
 
-      <div class="form-group">
-        <input type="email" id="email" name="email" required placeholder=" " />
-        <label for="email">Email</label>
+      <div class="button-group">
+        <a href="contactus.html" class="btn-primary" id="returnBtn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <line x1="19" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+          </svg>
+          <span>Return to Registration Page</span>
+        </a>
       </div>
+    </div>
 
-      <div class="form-group">
-        <textarea id="message" name="message" rows="4" required placeholder=" "></textarea>
-        <label for="message">Your Message</label>
+    <footer>
+      <div class="brand-link">RiteClick Technologies</div>
+      <div class="badge-aws">
+        <span>⚡ API Gateway</span>
+        <span>•</span>
+        <span>λ Lambda Function</span>
+        <span>•</span>
+        <span>📦 DynamoDB</span>
       </div>
-
-      <button type="submit">Submit 🚀</button>
-    </form>
+    </footer>
   </div>
 
-  <footer>&copy; 2025 Shivam Singh — Devops Innovation</footer>
+  <!-- Celebratory particles effect -->
+  <script>
+    (function () {
+      const canvas = document.getElementById('confettiCanvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+
+      let width = canvas.width = window.innerWidth;
+      let height = canvas.height = window.innerHeight;
+
+      window.addEventListener('resize', () => {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+      });
+
+      const colors = ['#10b981', '#06b6d4', '#6366f1', '#ff9900', '#f43f5e'];
+      const particles = [];
+      const particleCount = 45;
+
+      for (let i = 0; i < particleCount; i++) {
+        particles.push({
+          x: width / 2 + (Math.random() - 0.5) * 60,
+          y: height / 2 - 40 + (Math.random() - 0.5) * 40,
+          size: Math.random() * 5 + 3,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          vx: (Math.random() - 0.5) * 10,
+          vy: (Math.random() - 1.2) * 8,
+          rotation: Math.random() * 360,
+          rotSpeed: (Math.random() - 0.5) * 6,
+          opacity: 1,
+          gravity: 0.18
+        });
+      }
+
+      let animationFrame;
+      function render() {
+        ctx.clearRect(0, 0, width, height);
+        let alive = 0;
+
+        for (let p of particles) {
+          p.x += p.vx;
+          p.y += p.vy;
+          p.vy += p.gravity;
+          p.rotation += p.rotSpeed;
+          p.opacity -= 0.008;
+
+          if (p.opacity > 0) {
+            alive++;
+            ctx.save();
+            ctx.globalAlpha = Math.max(0, p.opacity);
+            ctx.translate(p.x, p.y);
+            ctx.rotate((p.rotation * Math.PI) / 180);
+            ctx.fillStyle = p.color;
+            ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+            ctx.restore();
+          }
+        }
+
+        if (alive > 0) {
+          animationFrame = requestAnimationFrame(render);
+        } else {
+          cancelAnimationFrame(animationFrame);
+        }
+      }
+
+      // Trigger burst
+      setTimeout(() => {
+        render();
+      }, 300);
+    })();
+
+    // Return navigation handling for local preview and AWS API Gateway
+    const returnBtn = document.getElementById('returnBtn');
+    if (returnBtn) {
+      if (window.location.protocol === 'http:' || window.location.protocol === 'https:') {
+        if (window.location.pathname && window.location.pathname !== '/' && !window.location.pathname.endsWith('.html')) {
+          returnBtn.href = window.location.pathname;
+        } else {
+          returnBtn.href = 'contactus.html';
+        }
+      } else {
+        returnBtn.href = 'contactus.html';
+      }
+    }
+  </script>
 
 </body>
+
 </html>
