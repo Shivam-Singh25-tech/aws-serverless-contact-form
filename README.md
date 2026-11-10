@@ -1,6 +1,6 @@
 # Step-by-Step Guide: API Gateway + Lambda + DynamoDB Integration
 
-serverless web form using API Gateway → Lambda → DynamoDB
+Serverless web form using API Gateway → Lambda → DynamoDB
 
 This project explains the integration of API Gateway,Lambda,and DynamoDB to build a serverless web application
 
